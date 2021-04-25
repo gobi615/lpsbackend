@@ -6,6 +6,6 @@ const app = express();
 
 app.get('/all', api.getAll);
 
-app.listen(4100, ()=>console.log('server started!!'))
+app.listen(80, ()=>console.log('server started!!'))
 
 console.log(process.env)
