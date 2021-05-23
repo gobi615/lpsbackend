@@ -1,7 +1,7 @@
 const db = require('../db')
 const cuid = require('cuid');
 
-const Leet = db.model('Model',{
+const schema = new db.Schema({
     _id: { type: String, default: cuid },
     id:{type: String },
     title : {type : String}, 
@@ -10,8 +10,10 @@ const Leet = db.model('Model',{
     frequency : {type : String}, 
     url : {type : String}, 
     difficulty : {type : String},
-    tag : [String]
-}, 'alltaged') ;
+    tag : [String],
+}, { versionKey: false });
+
+const Leet = db.model('Model',schema, 'alltaged') ;
 
 async function getAll(){    
     try{
@@ -22,22 +24,21 @@ async function getAll(){
         console.log(ex)
     }
 }
-async function update(_id, change){
-    // const leet = await Leet.findOne({_id});
-    // console.log(change)
-    // console.log(_id)
-    
+async function update(id, change){
+    // const leet = await Leet.findById(_id);
+    // if(!leet) throw new Error('Record not found');
+    // console.log(leet);
     // Object.keys(change).forEach((key)=>{
-    //     leet[key] = change[key];
+    //     leet.isSolved = change.isSolved;
     // });
     // await leet.save();
 
     await Leet.updateOne(
-        { _id: _id},
+        { id: id},
            {$set : {
                "isSolved" : change.isSolved
            }}) ;
-    return change;
+    // return leet;
 }
 module.exports = {
     getAll,
